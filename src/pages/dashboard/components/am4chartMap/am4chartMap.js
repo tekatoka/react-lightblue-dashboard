@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import cities from './mock';
-import am4geodata_usaHigh from "@amcharts/amcharts4-geodata/usaHigh";
+//import am4geodata_usaHigh from "@amcharts/amcharts4-geodata/usaHigh";
 import am4geodata_worldHigh from "@amcharts/amcharts4-geodata/worldHigh";
 
 import AnimateNumber from 'react-animated-number';
