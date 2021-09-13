@@ -430,6 +430,7 @@ module.exports = {
         minifyJS: true,
         minifyCSS: true,
         minifyURLs: true,
+        maximumFileSizeToCacheInBytes: 4194304
       },
     }),
     // Inlines the webpack runtime script. This script is too small to warrant
