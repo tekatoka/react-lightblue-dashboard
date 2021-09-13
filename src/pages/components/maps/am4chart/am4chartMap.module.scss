@@ -17,3 +17,11 @@
     position: relative;
     //margin: (-$widget-padding-vertical) (-$widget-padding-horizontal) 0;
   }
+
+  .notificationsWrapper {
+    width: min-content;
+  }
+
+  g[focusable] {
+      cursor: pointer;
+  }

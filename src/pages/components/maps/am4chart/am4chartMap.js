@@ -11,21 +11,25 @@ import am4geodata_worldHigh from "@amcharts/amcharts4-geodata/worldHigh";
 //import AnimateNumber from 'react-animated-number';
 import s from './am4chartMap.module.scss';
 
-import Modal from "../../modals/Modal"
+import Modal from "../../modals/Modal";
   
   class Am4chartMap extends Component {
   
     constructor(props) {
       super(props);
-      this.state = {seen: true};
+      this.state = {
+          modalVisible: false,
+          selectedCity: ''
+        };
   
       // This binding is necessary to make `this` work in the callback
-      this.togglePop = this.togglePop.bind(this);
+      this.toggleModal = this.toggleModal.bind(this);
     }
 
-    togglePop = () => {
+    toggleModal = (selectedCity) => {
       this.setState({
-       seen: !this.state.seen
+        modalVisible: !this.state.modalVisible ? true : this.state.modalVisible,
+        selectedCity: selectedCity
       });
     };
 
@@ -127,12 +131,12 @@ pin.label.text = "{date}";
 pin.label.fontSize="12px";
 pin.label.fill = am4core.color("rgba(7, 27, 82, 1)");
 
-cityTemplate.events.on("hit", function(ev) {
+cityTemplate.events.on("hit", (ev) => {
   // zoom to an object
   ev.target.series.chart.zoomToMapObject(ev.target);
-debugger;
   // get object info
-  alert(`Here comes info about ${ev.target.dataItem.dataContext.name}`);
+  this.toggleModal(ev.target.dataItem.dataContext.name);
+  //alert(`Here comes info about ${ev.target.dataItem.dataContext.name}`);
 });
 
 var label = pin.createChild(am4core.Label);
@@ -156,10 +160,21 @@ label.adapter.add("dy", function(dy) {
 
   render() {
     return (
+        <React.Fragment>
+                  {
+                  this.state.modalVisible && 
+                  <div
+                    style={{margin: "auto", position: "absolute", left: "45%", top: "10%", zIndex: 1000, minWidth: "300px", maxWidth: "90%"}}
+                    className={`${s.notificationsWrapper} py-0 animate__animated animate__faster animate__fadeInUp`}
+                  >
+                
+                    <Modal title={this.state.selectedCity} />
+                  </div>
+                }
       <div className={s.map} id="map">
-          {this.state.seen ? <Modal toggle={this.togglePop} /> : null},
+        
         </div>
-      
+      </React.Fragment>
     );
   }
 }
