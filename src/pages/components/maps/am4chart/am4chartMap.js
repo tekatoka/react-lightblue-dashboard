@@ -171,7 +171,6 @@ label.adapter.add("dy", function(dy) {
                     <div 
                         className={`py-0 animate__animated animate__faster animate__fadeInUp `}
                     >
-                    
                         <Modal title={this.state.selectedCity} toggleModal={this.toggleModal} />
                     </div>
                   </div>
