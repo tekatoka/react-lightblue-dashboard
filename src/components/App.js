@@ -13,6 +13,7 @@ import LayoutComponent from '../components/Layout';
 import Login from '../pages/login';
 import Register from '../pages/register';
 import { logoutUser } from '../actions/user';
+import Startpage from '../pages/startpage/Startpage';
 
 const PrivateRoute = ({dispatch, component, ...rest }) => {
     if (!Login.isAuthenticated(JSON.parse(localStorage.getItem('authenticated')))) {
@@ -30,7 +31,7 @@ const CloseButton = ({closeToast}) => <i onClick={closeToast} className="la la-c
 class App extends React.PureComponent {
   render() {
     return (
-        <div>
+        <React.Fragment>
             <ToastContainer
                 autoClose={5000}
                 hideProgressBar
@@ -38,17 +39,25 @@ class App extends React.PureComponent {
             />
             <HashRouter>
                 <Switch>
-                    <Route path="/" exact render={() => <Redirect to="/app/main"/>}/>
+                    <Route path="/" exact component={Startpage}/>
+                    {
+                        //<Route path="/" exact render={() => <Redirect to="/app/main"/>}/>
+                    }
                     <Route path="/app" exact render={() => <Redirect to="/app/main"/>}/>
-                    <PrivateRoute path="/app" dispatch={this.props.dispatch} component={LayoutComponent}/>
+                    <Route path="/app" dispatch={this.props.dispatch} component={LayoutComponent}/>
+                    {
+                        //<PrivateRoute path="/app" dispatch={this.props.dispatch} component={LayoutComponent}/>
+                    }
                     <Route path="/register" exact component={Register}/>
                     <Route path="/login" exact component={Login}/>
                     <Route path="/error" exact component={ErrorPage}/>
                     <Route component={ErrorPage}/>
-                    <Redirect from="*" to="/app/main/dashboard"/>
+                    {
+                        //<Redirect from="*" to="/app/main/dashboard"/>
+                    }
                 </Switch>
             </HashRouter>
-        </div>
+        </React.Fragment>
 
     );
   }
