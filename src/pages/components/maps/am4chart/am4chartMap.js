@@ -41,9 +41,9 @@ import Modal from "../../modals/Modal";
     map.projection = new am4maps.projections.Miller();
     let polygonSeries = map.series.push(new am4maps.MapPolygonSeries());
     polygonSeries.useGeodata = true;
-    map.homeZoomLevel = 2.4;
+    map.homeZoomLevel = 4.6;
     map.homeGeoPoint = {
-      latitude: 45,
+      latitude: 55,
       longitude: 55
     };
     map.zoomControl = new am4maps.ZoomControl();
