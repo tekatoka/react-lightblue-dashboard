@@ -38,6 +38,7 @@ class Widget extends React.Component {
     customControls: PropTypes.bool,
     options: PropTypes.object, //eslint-disable-line,
     fetchingData: PropTypes.bool,
+    handleToggleModal: PropTypes.func
   };
 
   static defaultProps = {
@@ -83,14 +84,13 @@ class Widget extends React.Component {
 
   }
 
-
-
   toggleModal = () => {
     this.setState({ modal: !this.state.modal });
   }
 
   handleClose = () => {
     this.setState({ hideWidget: !this.state.hideWidget})
+    this.props.handleToggleModal(false);
   }
 
   handleCollapse = () => {
@@ -168,6 +168,7 @@ class Widget extends React.Component {
       collapsed,
       widgetType,
       updateWidgetData,
+      handleToggleModal,
       options, //eslint-disable-line
       ...attributes
     } = this.props;

@@ -21,17 +21,21 @@ import Modal from "../../modals/Modal";
           modalVisible: false,
           selectedCity: ''
         };
-  
-      // This binding is necessary to make `this` work in the callback
+      this.setSelectedCity = this.setSelectedCity.bind(this);
       this.toggleModal = this.toggleModal.bind(this);
     }
 
-    toggleModal = (selectedCity) => {
+    setSelectedCity = (selectedCity) => {
       this.setState({
-        modalVisible: !this.state.modalVisible ? true : this.state.modalVisible,
         selectedCity: selectedCity
       });
     };
+
+    toggleModal = (show) => {
+        this.setState({
+          modalVisible: show
+        });
+      };
 
   componentDidMount() {
     let map = am4core.create("map", am4maps.MapChart);
@@ -71,7 +75,7 @@ import Modal from "../../modals/Modal";
     let minusButtonHoverState = map.zoomControl.minusButton.background.states.create("hover");
     minusButtonHoverState.properties.fill = am4core.color("#354D84");
     let polygonTemplate = polygonSeries.mapPolygons.template;
-    polygonTemplate.tooltipText = "{name}";
+    //polygonTemplate.tooltipText = "{name}";
     polygonTemplate.fill = am4core.color("#474D84");
     polygonTemplate.stroke = am4core.color("#6979C9")
     let hs = polygonTemplate.states.create("hover");
@@ -119,12 +123,12 @@ lineSeries.data = [{
 
 // Creating a pin bullet
 var pin = cityTemplate.createChild(am4plugins_bullets.PinBullet);
-
 // Configuring pin appearance
 pin.background.fill = am4core.color("#C7D0FF");
 pin.background.pointerBaseWidth = 5;
 pin.background.pointerLength = 55;
 pin.background.propertyFields.pointerLength = "length";
+pin.background.pointerAngle = 90; //bottom: 270
 pin.circle.fill = pin.background.fill;
 pin.label = new am4core.Label();
 pin.label.text = "{date}";
@@ -134,14 +138,14 @@ pin.label.fill = am4core.color("rgba(7, 27, 82, 1)");
 cityTemplate.events.on("hit", (ev) => {
   // zoom to an object
   ev.target.series.chart.zoomToMapObject(ev.target);
-  // get object info
-  this.toggleModal(ev.target.dataItem.dataContext.name);
-  //alert(`Here comes info about ${ev.target.dataItem.dataContext.name}`);
+  this.setSelectedCity(ev.target.dataItem.dataContext.name);
+  this.toggleModal(true);
 });
 
 var label = pin.createChild(am4core.Label);
 label.text = "{name}";
 label.fontWeight = "bold";
+label.position = "bottom";
 label.propertyFields.dy = "length";
 label.verticalCenter = "middle";
 label.fill = am4core.color("#C7D0FF");
@@ -163,12 +167,13 @@ label.adapter.add("dy", function(dy) {
         <React.Fragment>
                   {
                   this.state.modalVisible && 
-                  <div
-                    style={{margin: "auto", position: "absolute", left: "45%", top: "10%", zIndex: 1000, minWidth: "300px", maxWidth: "90%"}}
-                    className={`${s.notificationsWrapper} py-0 animate__animated animate__faster animate__fadeInUp`}
-                  >
-                
-                    <Modal title={this.state.selectedCity} />
+                  <div className={`${s.modalWrapper} }`}>
+                    <div 
+                        className={`py-0 animate__animated animate__faster animate__fadeInUp `}
+                    >
+                    
+                        <Modal title={this.state.selectedCity} toggleModal={this.toggleModal} />
+                    </div>
                   </div>
                 }
       <div className={s.map} id="map">

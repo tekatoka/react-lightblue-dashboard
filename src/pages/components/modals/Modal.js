@@ -27,82 +27,17 @@ class Modal extends React.Component {
     
   }
 
-  addSuccessNotification = () =>
-    toast.success(
-      "Showing success message was successful!",
-      this.state.options
-    );
-
-  toggleLocation = (location) => {
-    this.setState((prevState) => ({
-      options: {
-        ...prevState.options,
-        position: location,
-      },
-    }));
-  };
-
-  addInfoNotification = () => {
-    let id = uuid();
-    toast(
-      <div>
-        Launching thermonuclear war...
-        <Button
-          onClick={() => this.launchNotification(id)}
-          outline
-          size="xs"
-          className="width-100 mb-xs mr-xs mt-1"
-        >
-          Cancel launch
-        </Button>
-      </div>,
-      { 
-        ...this.state.options,
-        className: "Toastify__toast--primary",
-        toastId: id
-        }
-    );
-  };
-
-  launchNotification = (id) =>
-    toast.update(id, {
-      ...this.state.options,
-      render: "Thermonuclear war averted",
-      type: toast.TYPE.SUCCESS,
-    });
-
-  addErrorNotification = () => {
-    let id = uuid();
-    toast.error(
-      <div>
-        Error destroying alien planet <br />
-        <Button
-          onClick={() => this.retryNotification(id)}
-          outline
-          size="xs"
-          className="width-100 mb-xs mr-xs mt-1"
-        >
-          Retry
-        </Button>
-      </div>,
-      { ...this.state.options, toastId: id }
-    );
-  };
-
-  retryNotification = (id) =>
-    toast.update(id, {
-      ...this.state.options,
-      render: "Alien planet destroyed!",
-      type: toast.TYPE.SUCCESS,
-    });
 
   render() {
     return (
       <div className={s.root}>
-        <Widget title={<h6> {this.props.title}</h6>} close collapse>
+        <Widget title={<h6> {this.props.title}</h6>} close handleToggleModal={this.props.toggleModal}> 
+        {
+        //collapse
+        }
           <Row>
             <Col xs="12">
-              <h2><p>Here comest info about {this.props.title}</p></h2>
+              <h2><p>Here comes info about {this.props.title}</p></h2>
             </Col>
           </Row>
         </Widget>
